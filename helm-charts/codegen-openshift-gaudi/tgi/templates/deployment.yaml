@@ -33,7 +33,7 @@ spec:
             - name: HF_TOKEN
               value: "{{ .Values.global.huggingfacehubApiToken }}"
           securityContext: {}
-          image: "ghcr.io/huggingface/tgi-gaudi:2.0.1""
+          image: "ghcr.io/huggingface/tgi-gaudi:2.0.1"
           args:
           - "--max-input-length"
           - "1024"
