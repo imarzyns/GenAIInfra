@@ -1,0 +1,9 @@
+global:
+  clusterDomain: "insert-your-cluster-domain-here"
+  namespace: "helm-codegen"
+
+codegen:
+  image:
+    repository: image-registry.openshift-image-registry.svc:5000/helm-codegen/codegen
+    tag: "latest"
+    gitRef: main

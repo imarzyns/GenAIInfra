@@ -1,0 +1,8 @@
+global:
+  huggingfacehubApiToken: "insert-your-token"
+
+llmUservice:
+  image:
+    repository: image-registry.openshift-image-registry.svc:5000/helm-codegen/llm-tgi
+    tag: "latest"
+    gitRef: main

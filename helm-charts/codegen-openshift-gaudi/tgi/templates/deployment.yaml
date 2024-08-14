@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: codegen-tgi-gaudi
+  labels:
+    helm.sh/chart: tgi-0.1.0
+    app.kubernetes.io/name: tgi
+    app.kubernetes.io/instance: codegen
+    app.kubernetes.io/version: "1.4"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: tgi
+      app.kubernetes.io/instance: codegen
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: tgi
+        app.kubernetes.io/instance: codegen
+    spec:
+      securityContext: {}
+      containers:
+        - name: tgi
+          env:
+            - name: MODEL_ID
+              value: "{{ .Values.model.id }}"
+            - name: PORT
+              value: "8080"
+            - name: NUMBA_CACHE_DIR
+              value: /data
+            - name: HF_TOKEN
+              value: "{{ .Values.global.huggingfacehubApiToken }}"
+          securityContext: {}
+          image: "ghcr.io/huggingface/tgi-gaudi:2.0.1""
+          args:
+          - "--max-input-length"
+          - "1024"
+          - "--max-total-tokens"
+          - "2048"
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - mountPath: /data
+              name: model-volume
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          resources:
+            limits:
+              habana.ai/gaudi: 4
+            requests:
+              habana.ai/gaudi: 4
+      volumes:
+      - emptyDir:
+          sizeLimit: {{ .Values.model.size }}
+        name: model-volume
