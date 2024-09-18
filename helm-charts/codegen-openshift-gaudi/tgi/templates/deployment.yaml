@@ -31,7 +31,10 @@ spec:
             - name: NUMBA_CACHE_DIR
               value: /data
             - name: HF_TOKEN
-              value: "{{ .Values.global.huggingfacehubApiToken }}"
+              valueFrom:
+                secretKeyRef:
+                  key: HUGGING_FACE_HUB_TOKEN
+                  name: hf-token
           securityContext: {}
           image: "ghcr.io/huggingface/tgi-gaudi:2.0.1"
           args:

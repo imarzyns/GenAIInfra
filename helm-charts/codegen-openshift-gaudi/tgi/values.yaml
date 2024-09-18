@@ -1,6 +1,3 @@
-global:
-  huggingfacehubApiToken: "insert-your-huggingface-token-here"
-
 model:
   id: meta-llama/CodeLlama-7b-hf
   size: 50Gi
